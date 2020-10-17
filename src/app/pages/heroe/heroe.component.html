@@ -1,0 +1,43 @@
+<div class="container mt-5">
+    <div class="row animated fadeIn faster">
+        <div class="col-md-12">
+            <h1>Héroe<small> Nombre</small></h1>
+            <hr>
+            <form (ngSubmit)="guardar(f)" #f="ngForm">
+                <div class="form-group">
+                    <label>Firebase ID</label>
+                    <input type="text" class="form-control" placeholder="Firebase ID" disabled [(ngModel)]="heroe.id" name="id">
+                    <small class="form-text text-muted">Campo auto generado</small>
+                </div>
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" placeholder="Nombre" required [(ngModel)]="heroe.nombre" name="nombre">
+                </div>
+                <div class="form-group">
+                    <label>Poder</label>
+                    <input type="text" class="form-control" placeholder="Poder" [(ngModel)]="heroe.poder" name="poder">
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <br>
+                    <button class="btn btn-outline-success w-50" type="button" *ngIf="heroe.vivo" (click)="heroe.vivo=false">
+                        <i class="fa fa-smile-wink"></i> Vivo
+                    </button>
+                    <button class="btn btn-outline-danger w-50" type="button" *ngIf="!heroe.vivo" (click)="heroe.vivo=true">
+                        <i class="fa fa-dizzy"></i> Muerto
+                    </button>
+                    <input type="hidden" value="heroe.vivo" name="vivo" [(ngModel)]="heroe.vivo">
+                </div>
+                <hr>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-save"></i> Guardar
+                    </button>
+                    <button class="btn btn-danger float-right" routerLink="heroes">
+                        <i class="fa fa-arrow-left"></i> Volver
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
