@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HeroeModel } from '../models/heroe.model';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,43 @@ export class HeroesService {
         return heroe;
       }
     ));
+  }
+
+  actualizarHeroe(heroe: HeroeModel): any {
+    const heroeTemp = {
+      ...heroe
+    };
+    delete heroeTemp.id;
+    return this.http.put(`${this.url}/heroes/${heroe.id}.json`, heroeTemp);
+  }
+
+  borrarHeroe(id: string): Observable<any> {
+    return this.http.delete(`${this.url}/heroes/${id}.json`);
+  }
+
+  getHeroes(): Observable<any> {
+    return this.http.get(`${this.url}/heroes.json`).pipe(map (this.heroesToArray));
+  }
+
+  getHeroe(id: string): Observable<any> {
+    return this.http.get(`${this.url}/heroes/${id}.json`);
+  }
+
+  private heroesToArray(heroes: object): any {
+    const arrHeroes: HeroeModel[] = [];
+    if (heroes === null) {
+      return [];
+    } else {
+      Object.keys(heroes).forEach(key => {
+        const heroe: HeroeModel = heroes[key];
+        heroe.id = key;
+        heroe.nombre = heroes[key]['nombre'];
+        heroe.poder = heroes[key]['poder'];
+        heroe.vivo = heroes[key]['vivo'];
+        arrHeroes.push(heroe);
+      });
+      return arrHeroes;
+    }
   }
 
 }

@@ -1,29 +1,32 @@
 <h1>Héroes</h1>
-<div class="mb-3 mt-3">
+<div class="mb-3 mt-3" *ngIf="!cargando && heroes.length > 0">
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">Firebase ID</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Poder</th>
-                <th scope="col">Vivo</th>
-                <th scope="col">Herramientas</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Capitan America</td>
-                <td>Fuerza</td>
-                <td>Si</td>
-                <td>Escudo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Lobezno</td>
-                <td>Inmortalidad</td>
-                <td>No</td>
-                <td>Garras</td>
+            <tr *ngFor="let heroe of heroes; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{heroe.nombre}}</td>
+                <td>{{heroe.poder}}</td>
+                <td>
+                    <label class="badge badge-success" *ngIf="heroe.vivo">Vivo</label>
+                    <label class="badge badge-danger" *ngIf="!heroe.vivo">Muerto</label>
+                </td>
+                <td>
+                    <button class="btn btn-outline-secondary btn-sm mr-1" [routerLink]="['/heroe', heroe.id]">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" (click)="borrarHeroe(heroe, i)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -35,11 +38,11 @@
         </button>
     </div>
 </div>
-<div class="alert alert-warning text-center mt-5">
+<div class="alert alert-warning text-center mt-5" *ngIf="!cargando && heroes.length === 0">
     <h4 class="alert-heading">No hay registros</h4>
     <p><i class="fa fa-exclamation fa-2x"></i></p>
 </div>
-<div class="alert alert-info text-center mt-5">
+<div class="alert alert-info text-center mt-5" *ngIf="cargando">
     <h4 class="alert-heading">Cargando</h4>
     <p><i class="fa fa-sync-alt fa-spin fa-2x"></i></p>
     <p class="mb-0">Espere por favor</p>
