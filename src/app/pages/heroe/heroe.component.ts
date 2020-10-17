@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HeroeModel } from '../../models/heroe.model';
+import { HeroesService } from '../../services/heroes.service';
 
 @Component({
   selector: 'app-heroe',
@@ -9,18 +10,26 @@ import { HeroeModel } from '../../models/heroe.model';
 })
 export class HeroeComponent implements OnInit {
 
+  heroeCreado = false;
+  cargando = false;
+
   heroe = new HeroeModel();
 
-  constructor() { }
+  constructor(private heroesService: HeroesService) { }
 
   ngOnInit(): void {
   }
 
   guardar(form: NgForm): any {
+    this.cargando = true;
     if (form.valid) {
-      console.log(form);
+      this.heroesService.crearHeroe(this.heroe).subscribe((respuesta: any) => {
+        setTimeout(() => {
+          this.heroeCreado = true;
+        }, 1500);
+      });
     } else {
-      console.log('Faltan campos por ingresar o validar');
+      return;
     }
   }
 

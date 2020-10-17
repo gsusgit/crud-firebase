@@ -28,6 +28,12 @@
                     </button>
                     <input type="hidden" value="heroe.vivo" name="vivo" [(ngModel)]="heroe.vivo">
                 </div>
+                <div class="alert alert-info  animated fadeIn" *ngIf="cargando && !heroeCreado">
+                    <i class="fa fa-sync fa-spin"></i> Enviando...
+                </div>
+                <div class="alert alert-success animated fadeIn" *ngIf="heroeCreado">
+                    Héroe creado correctamente
+                </div>
                 <hr>
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit">
